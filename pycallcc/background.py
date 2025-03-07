@@ -42,12 +42,15 @@ class RedirectOutput(object):
         self.name = name
         self.buffer = None
         self._wrapped = False
+        self.rich_proxied_file = None
     def write(self, data):
         self.stream.put(pickle.dumps([self.name, data]))
     def writelines(self, datas):
         self.stream.put(pickle.dumps([self.name, datas]))
     def flush(self):
         pass
+    def isatty(self):
+        return False
     def __getattr__(self, attr):
         raise
         return getattr(self.stream, attr)
